@@ -78,6 +78,150 @@ actions:
       entity_id: notify.blood_pressure
 mode: single
 ```
+## 👥Multiple user separation
+You can create virtual sensors for user 1 and user 2 from this integration. Set it up via the [configuration.yaml](https://www.home-assistant.io/docs/configuration/) file. This means you can display the values on your dashboard for each user. (eg. you and your partner)
+<details>
+<summary>
+Example code
+</summary>
+
+```
+template:
+  - sensor:
+      # -------------------
+      # User 1 sensors
+      # -------------------
+      - name: "User 1 Mean Arterial Pressure"
+        state: >
+          {% if states('sensor.user_id') == '1' %}
+            {{ states('sensor.mean_arterial_pressure') }}
+          {% endif %}
+        unique_id: user1_mean_arterial_pressure
+        unit_of_measurement: "mmHg"
+        device_class: pressure
+
+      - name: "User 1 Signal Strength"
+        state: >
+          {% if states('sensor.user_id') == '1' %}
+            {{ states('sensor.signal_strength') }}
+          {% endif %}
+        unique_id: user1_signal_strength
+        unit_of_measurement: "dBm"
+        device_class: signal_strength
+
+      - name: "User 1 Heart Rate"
+        state: >
+          {% if states('sensor.user_id') == '1' %}
+            {{ states('sensor.heart_rate') }}
+          {% endif %}
+        unique_id: user1_heart_rate
+        unit_of_measurement: "bpm"
+        device_class: frequency
+
+      - name: "User 1 Systolic Pressure"
+        state: >
+          {% if states('sensor.user_id') == '1' %}
+            {{ states('sensor.systolic_pressure') }}
+          {% endif %}
+        unique_id: user1_systolic_pressure
+        unit_of_measurement: "mmHg"
+        device_class: pressure
+
+      - name: "User 1 Diastolic Pressure"
+        state: >
+          {% if states('sensor.user_id') == '1' %}
+            {{ states('sensor.diastolic_pressure') }}
+          {% endif %}
+        unique_id: user1_diastolic_pressure
+        unit_of_measurement: "mmHg"
+        device_class: pressure
+
+      - name: "User 1 Last Measurement"
+        state: >
+          {% if states('sensor.user_id') == '1' %}
+            {{ states('sensor.last_measurement') }}
+          {% endif %}
+        unique_id: user1_last_measurement
+
+      - name: "User 1 Battery Level"
+        state: >
+          {% if states('sensor.user_id') == '1' %}
+            {{ states('sensor.battery_level') }}
+          {% endif %}
+        unique_id: user1_battery_level
+        unit_of_measurement: "%"
+        device_class: battery
+
+      # -------------------
+      # User 2 sensors
+      # -------------------
+      - name: "User 2 Mean Arterial Pressure"
+        state: >
+          {% if states('sensor.user_id') == '2' %}
+            {{ states('sensor.mean_arterial_pressure') }}
+          {% endif %}
+        unique_id: user2_mean_arterial_pressure
+        unit_of_measurement: "mmHg"
+        device_class: pressure
+
+      - name: "User 2 Signal Strength"
+        state: >
+          {% if states('sensor.user_id') == '2' %}
+            {{ states('sensor.signal_strength') }}
+          {% endif %}
+        unique_id: user2_signal_strength
+        unit_of_measurement: "dBm"
+        device_class: signal_strength
+
+      - name: "User 2 Heart Rate"
+        state: >
+          {% if states('sensor.user_id') == '2' %}
+            {{ states('sensor.heart_rate') }}
+          {% endif %}
+        unique_id: user2_heart_rate
+        unit_of_measurement: "bpm"
+        device_class: frequency
+
+      - name: "User 2 Systolic Pressure"
+        state: >
+          {% if states('sensor.user_id') == '2' %}
+            {{ states('sensor.systolic_pressure') }}
+          {% endif %}
+        unique_id: user2_systolic_pressure
+        unit_of_measurement: "mmHg"
+        device_class: pressure
+
+      - name: "User 2 Diastolic Pressure"
+        state: >
+          {% if states('sensor.user_id') == '2' %}
+            {{ states('sensor.diastolic_pressure') }}
+          {% endif %}
+        unique_id: user2_diastolic_pressure
+        unit_of_measurement: "mmHg"
+        device_class: pressure
+
+      - name: "User 2 Last Measurement"
+        state: >
+          {% if states('sensor.user_id') == '2' %}
+            {{ states('sensor.last_measurement') }}
+          {% endif %}
+        unique_id: user2_last_measurement
+
+      - name: "User 2 Battery Level"
+        state: >
+          {% if states('sensor.user_id') == '2' %}
+            {{ states('sensor.battery_level') }}
+          {% endif %}
+        unique_id: user2_battery_level
+        unit_of_measurement: "%"
+        device_class: battery
+
+```
+</details>
+
+### Limitations:
+
+It can only update the sensor for new values, not previously logged ones. It retains the previously logged values for the virtual sensors except the datetime. (It is kept as plain string in the virtual sensor.)
 
 ## ✅ Supported Devices
 
